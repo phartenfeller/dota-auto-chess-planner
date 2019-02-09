@@ -150,7 +150,12 @@ class HeroesTable extends React.Component<
                   fontWeight: 'bold',
                   flex: 4,
                 }}
-                className={search !== '' && name.toLowerCase().includes(search.toLowerCase()) ? 'highlight' : ''}
+                className={
+                  search !== '' &&
+                    name.toLowerCase().includes(search.toLowerCase())
+                    ? 'highlight'
+                    : ''
+                }
               >
                 {name}
               </td>
@@ -198,10 +203,10 @@ class HeroesList extends React.Component<
     search: '',
   };
 
-  updateSearch = (event: any) => {
+  updateSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     const searchString = event.target.value;
     this.setState({ search: searchString });
-  }
+  };
 
   handlePickedHeroesChange = (newPickedHeroes: HeroNamesType) => {
     const {
@@ -234,11 +239,24 @@ class HeroesList extends React.Component<
           names to sort the list. Copy link from the address bar to share your
           lineup.
         </h2>
+        <h3 style={{ color: 'White' }}>Last patch: 2018/02/05</h3>
         <div style={{ flexDirection: 'row', display: 'flex' }}>
           <h3 style={{ float: 'left', display: 'inline' }}>
-            <Link to={pathname}>Clear</Link>
+            <Link to={pathname}>Clear lineup</Link>
           </h3>
-          <input type="text" placeholder="Search" value={this.state.search} onChange={this.updateSearch} style={{ float: 'left', display: 'inline', margin: 'auto', marginLeft: '20px', height: '24px' }} />
+          <input
+            type="text"
+            placeholder="Search"
+            value={this.state.search}
+            onChange={this.updateSearch}
+            style={{
+              float: 'left',
+              display: 'inline',
+              margin: 'auto',
+              marginLeft: '20px',
+              height: '24px',
+            }}
+          />
         </div>
         <div style={{ flexDirection: 'row', display: 'flex' }}>
           <div style={{ flex: 1 }}>
