@@ -14,6 +14,37 @@ tr {
   cursor: pointer;
 }
 
+.search-form {
+  margin: auto auto auto 20px;
+}
+
+.searchbar {
+  display: inline;
+  height: 24px;
+  background-color: #2d2d2d;
+  border: none;
+  color: #bfbfbf;
+  padding-left: 30px;
+  border-radius: 16px;
+}
+
+.searchbar:focus {
+  border-color: #dadada;
+  outline: 0;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(218, 218, 218, 0.3);
+  ;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(218, 218, 218, 0.3);
+  ;
+}
+
+.search-icon {
+  left: 158px;
+  font-size: 22px;
+  position: absolute;
+  color: #6b6b6b;
+  padding-top: 2px;
+}
+
 .highlight {
   background-color: #59ff0054;
 }

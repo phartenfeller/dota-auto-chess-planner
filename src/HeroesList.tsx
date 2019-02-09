@@ -244,19 +244,16 @@ class HeroesList extends React.Component<
           <h3 style={{ float: 'left', display: 'inline' }}>
             <Link to={pathname}>Clear lineup</Link>
           </h3>
-          <input
-            type="text"
-            placeholder="Search"
-            value={this.state.search}
-            onChange={this.updateSearch}
-            style={{
-              float: 'left',
-              display: 'inline',
-              margin: 'auto',
-              marginLeft: '20px',
-              height: '24px',
-            }}
-          />
+          <form className="search-form">
+            <input
+              type="text"
+              placeholder="Search"
+              value={this.state.search}
+              onChange={this.updateSearch}
+              className="searchbar"
+            />
+            <i className="search-icon material-icons">search</i>
+          </form>
         </div>
         <div style={{ flexDirection: 'row', display: 'flex' }}>
           <div style={{ flex: 1 }}>
