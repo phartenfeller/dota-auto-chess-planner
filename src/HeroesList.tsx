@@ -239,11 +239,11 @@ class HeroesList extends React.Component<
           names to sort the list. Copy link from the address bar to share your
           lineup.
         </h2>
-        <h3 style={{ color: 'White' }}>Last patch: 2018/02/05</h3>
         <div style={{ flexDirection: 'row', display: 'flex' }}>
-          <h3 style={{ float: 'left', display: 'inline' }}>
-            <Link to={pathname}>Clear lineup</Link>
-          </h3>
+          <Link to={pathname} className="clear-btn">
+            <span className="vertical-middle">Clear lineup </span>
+            <i className="material-icons clear-icon vertical-middle">cancel</i>
+          </Link>
           <form className="search-form">
             <input
               type="text"
@@ -254,6 +254,7 @@ class HeroesList extends React.Component<
             />
             <i className="search-icon material-icons">search</i>
           </form>
+          <h3 style={{ color: '#bfbfbf', paddingRight: "25px" }}>Last patch: 2018/02/05</h3>
         </div>
         <div style={{ flexDirection: 'row', display: 'flex' }}>
           <div style={{ flex: 1 }}>

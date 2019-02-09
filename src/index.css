@@ -14,8 +14,34 @@ tr {
   cursor: pointer;
 }
 
+.vertical-middle {
+  vertical-align: middle
+}
+
 .search-form {
   margin: auto auto auto 20px;
+}
+
+.clear-btn {
+  color: #bfbfbf;
+  text-decoration: none;
+  margin: auto;
+  margin-left: 10px;
+  margin-right: 20px;
+  background-color: #2d2d2d;
+  border-radius: 6px;
+  padding: 6px;
+  font-size: 18px;
+  box-shadow: 0px 2px 8px 2px #8282823b;
+}
+
+.clear-btn:hover {
+  color: #cecece;
+}
+
+.clear-icon {
+  color: #797979;
+  font-size: 22px !important;
 }
 
 .searchbar {
@@ -38,7 +64,7 @@ tr {
 }
 
 .search-icon {
-  left: 158px;
+  left: 186px;
   font-size: 22px;
   position: absolute;
   color: #6b6b6b;
