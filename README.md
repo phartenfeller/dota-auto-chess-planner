@@ -1,8 +1,10 @@
 # dota-auto-chess-planner
 
+Forked from [Kumagor0](https://github.com/Kumagor0/dota-auto-chess-planner) 
+
 Displays your team bonuses for given lineup.
 
-[Live demo](https://kumagor0.github.io/dota-auto-chess-planner/)
+[Live demo](https://phartenfeller.github.io/dota-auto-chess-planner/)
 
 ## Usage
 
