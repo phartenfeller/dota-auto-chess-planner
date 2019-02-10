@@ -62,127 +62,130 @@ const getHeroesComparators = (
   }
 };
 
-class HeroesTable extends React.Component<
-  {
-    heroes: Array<HeroType>;
-    pickedHeroes: HeroNamesType;
-    onPickedHeroesChange: (newPickedHeroes: HeroNamesType) => void;
-    onSort: (column: SortableColumnType) => void;
-    search: string;
-  },
-  {}
-  > {
-  handleHeroClick = (heroName: HeroType['name']) => {
-    const index = this.props.pickedHeroes.indexOf(heroName);
+interface heroTablesInput {
+  heroes: Array<HeroType>;
+  pickedHeroes: HeroNamesType;
+  onPickedHeroesChange: (newPickedHeroes: HeroNamesType) => void;
+  onSort: (column: SortableColumnType) => void;
+  search: string;
+}
+
+const HeroesTable: any = ({
+  heroes,
+  pickedHeroes,
+  onPickedHeroesChange,
+  onSort,
+  search
+}: heroTablesInput) => {
+  const features = getFeaturesList(pickedHeroes);
+  const handleHeroClick = (heroName: HeroType['name']) => {
+    const index = pickedHeroes.indexOf(heroName);
 
     if (index === -1) {
-      this.props.onPickedHeroesChange([...this.props.pickedHeroes, heroName]);
+      onPickedHeroesChange([...pickedHeroes, heroName]);
     } else {
-      const newPickedHeroes = [...this.props.pickedHeroes];
+      const newPickedHeroes = [...pickedHeroes];
 
       newPickedHeroes.splice(index, 1);
 
-      this.props.onPickedHeroesChange(newPickedHeroes);
+      onPickedHeroesChange(newPickedHeroes);
     }
   };
-
+  /*
   render() {
     const { heroes, pickedHeroes, onSort, search } = this.props;
+  */
+  return (
+    <table style={{ width: '100%' }}>
+      <thead style={{ color: 'White' }}>
+        <tr style={{ display: 'flex', width: '100%' }}>
+          <th
+            onClick={() => {
+              onSort('name');
+            }}
+            style={{ flex: 4 }}
+          >
+            Name
+            </th>
+          <th
+            onClick={() => {
+              onSort('species');
+            }}
+            style={{ flex: 3 }}
+          >
+            Species
+            </th>
+          <th
+            onClick={() => {
+              onSort('class');
+            }}
+            style={{ flex: 3 }}
+          >
+            Class
+            </th>
+          {/* <th>Ability</th> */}
+          <th
+            onClick={() => {
+              onSort('cost');
+            }}
+            style={{ flex: 1 }}
+          >
+            Cost
+            </th>
+        </tr>
+      </thead>
 
-    const features = getFeaturesList(pickedHeroes);
-
-    return (
-      <table style={{ width: '100%' }}>
-        <thead style={{ color: 'White' }}>
-          <tr style={{ display: 'flex', width: '100%' }}>
-            <th
-              onClick={() => {
-                onSort('name');
-              }}
-              style={{ flex: 4 }}
-            >
-              Name
-            </th>
-            <th
-              onClick={() => {
-                onSort('species');
-              }}
-              style={{ flex: 3 }}
-            >
-              Species
-            </th>
-            <th
-              onClick={() => {
-                onSort('class');
-              }}
-              style={{ flex: 3 }}
-            >
-              Class
-            </th>
-            {/* <th>Ability</th> */}
-            <th
-              onClick={() => {
-                onSort('cost');
-              }}
-              style={{ flex: 1 }}
-            >
-              Cost
-            </th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {heroes.map(({ name, species, className, cost }) => (
-            <tr
-              key={name}
-              onClick={() => {
-                this.handleHeroClick(name);
-              }}
+      <tbody>
+        {heroes.map(({ name, species, className, cost }) => (
+          <tr
+            key={name}
+            onClick={() => {
+              handleHeroClick(name);
+            }}
+            style={{
+              backgroundColor:
+                pickedHeroes.indexOf(name) === -1 ? 'Black' : 'DarkSlateGrey',
+              display: 'flex',
+            }}
+          >
+            <td
               style={{
-                backgroundColor:
-                  pickedHeroes.indexOf(name) === -1 ? 'Black' : 'DarkSlateGrey',
-                display: 'flex',
+                color: colors.cost[cost],
+                fontWeight: 'bold',
+                flex: 4,
               }}
+              className={
+                search !== '' &&
+                  name.toLowerCase().includes(search.toLowerCase())
+                  ? 'highlight'
+                  : ''
+              }
             >
-              <td
-                style={{
-                  color: colors.cost[cost],
-                  fontWeight: 'bold',
-                  flex: 4,
-                }}
-                className={
-                  search !== '' &&
-                    name.toLowerCase().includes(search.toLowerCase())
-                    ? 'highlight'
-                    : ''
-                }
-              >
-                {name}
-              </td>
-              <td style={{ flex: 3 }}>
-                {species.map(speciesName => (
-                  <React.Fragment key={speciesName}>
-                    <Feature
-                      name={speciesName}
-                      highlight={features.indexOf(speciesName) !== -1}
-                    />{' '}
-                  </React.Fragment>
-                ))}
-              </td>
-              <td style={{ flex: 3 }}>
-                <Feature
-                  name={className}
-                  highlight={features.indexOf(className) !== -1}
-                />
-              </td>
-              {/* <td> </td> */}
-              <td style={{ color: 'White', flex: 1 }}>{cost}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    );
-  }
+              {name}
+            </td>
+            <td style={{ flex: 3 }}>
+              {species.map(speciesName => (
+                <React.Fragment key={speciesName}>
+                  <Feature
+                    name={speciesName}
+                    highlight={features.indexOf(speciesName) !== -1}
+                  />{' '}
+                </React.Fragment>
+              ))}
+            </td>
+            <td style={{ flex: 3 }}>
+              <Feature
+                name={className}
+                highlight={features.indexOf(className) !== -1}
+              />
+            </td>
+            {/* <td> </td> */}
+            <td style={{ color: 'White', flex: 1 }}>{cost}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
 }
 
 type HeroesListState = {
