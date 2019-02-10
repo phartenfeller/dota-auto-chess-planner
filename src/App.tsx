@@ -5,34 +5,32 @@ import * as queryString from 'query-string';
 import { stringToHeroNames } from './heroes';
 import { HeroesListWithRouter } from './HeroesList';
 
-class App extends React.Component {
-  public render() {
-    return (
-      <div
-        className="App"
-        style={{ backgroundColor: 'Black', fontSize: '20px' }}
-      >
-        <BrowserRouter>
-          <Route
-            path="/"
-            render={({ location: { search } }) => {
-              const { heroes: heroesString } = queryString.parse(search);
+const App = () => {
+  return (
+    <div
+      className="App"
+      style={{ backgroundColor: 'Black', fontSize: '20px' }}
+    >
+      <BrowserRouter>
+        <Route
+          path="/"
+          render={({ location: { search } }) => {
+            const { heroes: heroesString } = queryString.parse(search);
 
-              if (!heroesString || typeof heroesString !== 'string') {
-                return <HeroesListWithRouter pickedHeroes={[]} />;
-              }
+            if (!heroesString || typeof heroesString !== 'string') {
+              return <HeroesListWithRouter pickedHeroes={[] as Array<string>} />;
+            }
 
-              return (
-                <HeroesListWithRouter
-                  pickedHeroes={stringToHeroNames(heroesString)}
-                />
-              );
-            }}
-          />
-        </BrowserRouter>
-      </div>
-    );
-  }
+            return (
+              <HeroesListWithRouter
+                pickedHeroes={stringToHeroNames(heroesString) as Array<string>}
+              />
+            );
+          }}
+        />
+      </BrowserRouter>
+    </div>
+  );
 }
 
-export default App;
+export default App as React.FunctionComponent;

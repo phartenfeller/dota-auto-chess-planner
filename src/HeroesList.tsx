@@ -11,7 +11,7 @@ import {
   getFeaturesList,
 } from './heroes';
 import { colors } from './colors';
-import { withRouter, RouteComponentProps } from 'react-router';
+import { withRouter } from 'react-router';
 import { Link } from 'react-router-dom';
 
 type SortableColumnType = 'name' | 'species' | 'class' | 'cost';
@@ -70,13 +70,13 @@ interface heroTablesInput {
   search: string;
 }
 
-const HeroesTable: any = ({
+const HeroesTable: React.FunctionComponent<heroTablesInput> = ({
   heroes,
   pickedHeroes,
   onPickedHeroesChange,
   onSort,
   search
-}: heroTablesInput) => {
+}) => {
   const features = getFeaturesList(pickedHeroes);
   const handleHeroClick = (heroName: HeroType['name']) => {
     const index = pickedHeroes.indexOf(heroName);
@@ -188,130 +188,105 @@ const HeroesTable: any = ({
   );
 }
 
-type HeroesListState = {
-  sortBy: SortableColumnType;
-  sortAscending: boolean;
-  search: string;
-};
+interface heroListInterface {
+  pickedHeroes: Array<string>;
+  location: any;
+  history: any;
+}
 
-class HeroesList extends React.Component<
-  RouteComponentProps<{}> & {
-    pickedHeroes: HeroNamesType;
-  },
-  HeroesListState
-  > {
-  state: HeroesListState = {
-    sortBy: 'cost',
-    sortAscending: true,
-    search: '',
-  };
+const HeroesList: React.FunctionComponent<heroListInterface> = ({ pickedHeroes, location, history }) => {
+  const [sortBy, setSortBy] = React.useState<SortableColumnType>('cost');
+  const [sortAscending, setSortAscending] = React.useState<boolean>(true);
+  const [search, setSearch] = React.useState<string>('');
 
-  updateSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const searchString = event.target.value;
-    this.setState({ search: searchString });
-  };
-
-  handlePickedHeroesChange = (newPickedHeroes: HeroNamesType) => {
-    const {
-      location: { pathname },
-    } = this.props;
-
-    this.props.history.push(
-      `${pathname}?heroes=${heroNamesToString(newPickedHeroes)}`
+  const handlePickedHeroesChange = (newPickedHeroes: HeroNamesType) => {
+    history.push(
+      `${location.pathname}?heroes=${heroNamesToString(newPickedHeroes)}`
     );
   };
 
-  handleSort = (column: SortableColumnType) => {
-    this.setState(({ sortBy, sortAscending }) => ({
-      sortBy: column,
-      sortAscending: sortBy === column ? !sortAscending : sortAscending,
-    }));
+  const handleSort = (column: SortableColumnType) => {
+    setSortBy(column);
+    setSortAscending(sortBy === column ? !sortAscending : sortAscending);
   };
 
-  render() {
-    const { sortBy, sortAscending } = this.state;
-    const {
-      pickedHeroes,
-      location: { pathname },
-    } = this.props;
 
-    return (
-      <div style={{ width: '100%' }}>
-        <h2 style={{ color: 'White' }}>
-          Click on heroes to add/remove them to/from your team. Click on column
-          names to sort the list. Copy link from the address bar to share your
-          lineup.
+  return (
+    <div style={{ width: '100%' }}>
+      <h2 style={{ color: 'White' }}>
+        Click on heroes to add/remove them to/from your team. Click on column
+        names to sort the list. Copy link from the address bar to share your
+        lineup.
         </h2>
-        <div style={{ flexDirection: 'row', display: 'flex' }}>
-          <Link to={pathname} className="clear-btn">
-            <span className="vertical-middle">Clear lineup </span>
-            <i className="material-icons clear-icon vertical-middle">cancel</i>
-          </Link>
-          <form className="search-form">
-            <input
-              type="text"
-              placeholder="Search"
-              value={this.state.search}
-              onChange={this.updateSearch}
-              className="searchbar"
-            />
-            <i className="search-icon material-icons">search</i>
-          </form>
-          <h3 style={{ color: '#bfbfbf', paddingRight: "25px" }}>Last patch: 2018/02/05</h3>
+      <div style={{ flexDirection: 'row', display: 'flex' }}>
+        <Link to={location.pathname} className="clear-btn">
+          <span className="vertical-middle">Clear lineup </span>
+          <i className="material-icons clear-icon vertical-middle">cancel</i>
+        </Link>
+        <form className="search-form">
+          <input
+            type="text"
+            placeholder="Search"
+            value={search}
+            onChange={e => setSearch(e.target.value)}
+            className="searchbar"
+          />
+          <i className="search-icon material-icons">search</i>
+        </form>
+        <h3 style={{ color: '#bfbfbf', paddingRight: "25px" }}>Last patch: 2018/02/05</h3>
+      </div>
+      <div style={{ flexDirection: 'row', display: 'flex' }}>
+        <div style={{ flex: 1 }}>
+          <HeroesTable
+            heroes={
+              sortWith(
+                getHeroesComparators(sortBy, sortAscending),
+                heroes
+              ).slice(0, Math.ceil(heroes.length / 2)) as Array<HeroType>
+            }
+            pickedHeroes={pickedHeroes}
+            onPickedHeroesChange={handlePickedHeroesChange}
+            onSort={handleSort}
+            search={search}
+          />
         </div>
-        <div style={{ flexDirection: 'row', display: 'flex' }}>
-          <div style={{ flex: 1 }}>
-            <HeroesTable
-              heroes={
-                sortWith(
-                  getHeroesComparators(sortBy, sortAscending),
-                  heroes
-                ).slice(0, Math.ceil(heroes.length / 2)) as Array<HeroType>
-              }
-              pickedHeroes={pickedHeroes}
-              onPickedHeroesChange={this.handlePickedHeroesChange}
-              onSort={this.handleSort}
-              search={this.state.search}
-            />
-          </div>
-          <div style={{ flex: 1 }}>
-            <HeroesTable
-              heroes={
-                sortWith(
-                  getHeroesComparators(sortBy, sortAscending),
-                  heroes
-                ).slice(Math.ceil(heroes.length / 2), heroes.length) as Array<
-                  HeroType
-                >
-              }
-              pickedHeroes={pickedHeroes}
-              onPickedHeroesChange={this.handlePickedHeroesChange}
-              onSort={this.handleSort}
-              search={this.state.search}
-            />
-          </div>
-          <div style={{ flex: 1 }}>
-            <div style={{ color: 'White' }}>
-              <h2>Team size: {pickedHeroes.length}</h2>
+        <div style={{ flex: 1 }}>
+          <HeroesTable
+            heroes={
+              sortWith(
+                getHeroesComparators(sortBy, sortAscending),
+                heroes
+              ).slice(Math.ceil(heroes.length / 2), heroes.length) as Array<
+                HeroType
+              >
+            }
+            pickedHeroes={pickedHeroes}
+            onPickedHeroesChange={handlePickedHeroesChange}
+            onSort={handleSort}
+            search={search}
+          />
+        </div>
+        <div style={{ flex: 1 }}>
+          <div style={{ color: 'White' }}>
+            <h2>Team size: {pickedHeroes.length}</h2>
 
-              {getFeaturesCount(pickedHeroes).map(
-                ({ feature, count, activePerks }) => (
-                  <div key={feature} style={{ margin: '10px' }}>
-                    <Feature name={feature} /> x {count}
-                    {activePerks.map(({ requiredCount, description }) => (
-                      <div key={requiredCount}>
-                        ({requiredCount}): {description}
-                      </div>
-                    ))}
-                  </div>
-                )
-              )}
-            </div>
+            {getFeaturesCount(pickedHeroes).map(
+              ({ feature, count, activePerks }) => (
+                <div key={feature} style={{ margin: '10px' }}>
+                  <Feature name={feature} /> x {count}
+                  {activePerks.map(({ requiredCount, description }) => (
+                    <div key={requiredCount}>
+                      ({requiredCount}): {description}
+                    </div>
+                  ))}
+                </div>
+              )
+            )}
           </div>
         </div>
       </div>
-    );
-  }
+    </div>
+  );
 }
 
-export const HeroesListWithRouter = withRouter(HeroesList);
+export const HeroesListWithRouter = withRouter(HeroesList as React.FunctionComponent) as any;

@@ -36,6 +36,7 @@ tr {
 }
 
 .clear-btn:hover {
+  box-shadow: 0px 2px 8px 2px #a9a9a93b;
   color: #cecece;
 }
 
@@ -64,7 +65,7 @@ tr {
 }
 
 .search-icon {
-  left: 186px;
+  left: 188px;
   font-size: 22px;
   position: absolute;
   color: #6b6b6b;
