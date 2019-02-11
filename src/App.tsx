@@ -9,7 +9,6 @@ const App = () => {
   return (
     <div
       className="App"
-      style={{ backgroundColor: 'Black', fontSize: '20px' }}
     >
       <BrowserRouter>
         <Route

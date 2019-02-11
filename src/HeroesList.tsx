@@ -142,11 +142,8 @@ const HeroesTable: React.FunctionComponent<heroTablesInput> = ({
             onClick={() => {
               handleHeroClick(name);
             }}
-            style={{
-              backgroundColor:
-                pickedHeroes.indexOf(name) === -1 ? 'Black' : 'DarkSlateGrey',
-              display: 'flex',
-            }}
+            className={pickedHeroes.indexOf(name) === -1 ? '' : 'selected'}
+            style={{ display: 'flex' }}
           >
             <td
               style={{
@@ -213,11 +210,11 @@ const HeroesList: React.FunctionComponent<heroListInterface> = ({ pickedHeroes, 
 
   return (
     <div style={{ width: '100%' }}>
-      <h2 style={{ color: 'White' }}>
+      <h3 className="header-text">
         Click on heroes to add/remove them to/from your team. Click on column
         names to sort the list. Copy link from the address bar to share your
         lineup.
-        </h2>
+        </h3>
       <div style={{ flexDirection: 'row', display: 'flex' }}>
         <Link to={location.pathname} className="clear-btn">
           <span className="vertical-middle">Clear lineup </span>
@@ -233,10 +230,10 @@ const HeroesList: React.FunctionComponent<heroListInterface> = ({ pickedHeroes, 
           />
           <i className="search-icon material-icons">search</i>
         </form>
-        <h3 style={{ color: '#bfbfbf', paddingRight: "25px" }}>Last patch: 2018/02/05</h3>
+        <h3 style={{ color: '#bfbfbf', paddingRight: "25px" }}>Last patch: 2019/02/05</h3>
       </div>
-      <div style={{ flexDirection: 'row', display: 'flex' }}>
-        <div style={{ flex: 1 }}>
+      <div style={{ flexDirection: 'row', display: 'flex', paddingLeft: '10px' }}>
+        <div className="tbl tbl-left" style={{ flex: 1 }}>
           <HeroesTable
             heroes={
               sortWith(
@@ -250,7 +247,7 @@ const HeroesList: React.FunctionComponent<heroListInterface> = ({ pickedHeroes, 
             search={search}
           />
         </div>
-        <div style={{ flex: 1 }}>
+        <div className="tbl tbl-right" style={{ flex: 1 }}>
           <HeroesTable
             heroes={
               sortWith(
@@ -267,9 +264,8 @@ const HeroesList: React.FunctionComponent<heroListInterface> = ({ pickedHeroes, 
           />
         </div>
         <div style={{ flex: 1 }}>
-          <div style={{ color: 'White' }}>
-            <h2>Team size: {pickedHeroes.length}</h2>
-
+          <div className="pick-box">
+            <span className="team-size">{pickedHeroes.length} Heroes</span>
             {getFeaturesCount(pickedHeroes).map(
               ({ feature, count, activePerks }) => (
                 <div key={feature} style={{ margin: '10px' }}>

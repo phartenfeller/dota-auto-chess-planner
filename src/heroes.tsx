@@ -198,7 +198,7 @@ export const heroes: Array<HeroType> = [
     code: 'rz',
   },
   {
-    name: 'Wind Ranger',
+    name: 'Windranger',
     species: ['Elf'],
     className: 'Hunter',
     cost: 3,
